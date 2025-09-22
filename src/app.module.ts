@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { ExpenseModule } from './expense/expense.module';
 import configuration from 'config/configuration';
 
 @Module({
@@ -13,7 +14,8 @@ import configuration from 'config/configuration';
               // load: [configuration],
             }),
     MongooseModule.forRoot('mongodb://localhost:27017/finnet'),
-    AuthModule
+    AuthModule,
+    ExpenseModule
   ],
   controllers: [AppController],
   providers: [AppService],

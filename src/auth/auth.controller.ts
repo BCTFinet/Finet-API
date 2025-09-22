@@ -10,7 +10,13 @@ export class AuthController {
 
     @Post('register')
     async register(@Body() body: {email : string, password: string}) {
-        return await this.authService.register(body.email, body.password);
+        const user = await this.authService.register(body.email, body.password);
+
+        if (!user){
+            return {message : "Failed to Create Account!"}
+        }
+
+        return {message : "Succesfully Created an Account!"}
     }
 
     @UseGuards(LocalAuthGuard)
