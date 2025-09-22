@@ -16,7 +16,7 @@ export class AuthController {
             return {message : "Failed to Create Account!"}
         }
 
-        return {message : "Succesfully Created an Account!"}
+        return {message : "Succesfully Created an Account!", user}
     }
 
     @UseGuards(LocalAuthGuard)

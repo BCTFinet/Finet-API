@@ -5,8 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schema/user.schema';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { LocalStrategy } from './local.strategy';
-import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from '../strategy/local.strategy';
+import { JwtStrategy } from '../strategy/jwt.strategy';
 
 @Module({
   imports: [
@@ -17,7 +17,9 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '1h'}
     })
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService, LocalStrategy, JwtStrategy,
+  ],
   controllers: [AuthController]
 })
 
