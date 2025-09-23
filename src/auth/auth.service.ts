@@ -1,14 +1,13 @@
-import { ConflictException, HttpStatus, Injectable, InternalServerErrorException, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schema/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { JwtAuthGuard } from './auth.guard';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 // Service is where it handles the logic side 
-type AuthInput = {email : string, password : string}; 
-
+// Throw every error at the service file 
 @Injectable()
 export class AuthService {
     constructor (
@@ -17,10 +16,10 @@ export class AuthService {
         private jwtService : JwtService,
     ){}
 
-    async register(email: string, password: string) : Promise<UserDocument> {
+    async register(data : CreateUserDto) : Promise<UserDocument> {
         try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            return await this.userModel.create({ email, password: hashedPassword });
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+            return await this.userModel.create({ email : data.email, password: hashedPassword });
         } 
         catch (error) {
             if (error.code === 11000) {
@@ -34,22 +33,29 @@ export class AuthService {
 
     async login(user : any){
         const payload = {email : user.email, sub: user._id}
-
-        return {
-            message : "Succesfully Logged In!",
-            access_token: await this.jwtService.signAsync(payload),
-        };
+        return await this.jwtService.signAsync(payload)
     }
 
-    async validateUser(input : AuthInput): Promise<UserDocument | null>{
-        // Search for the Data User
-        const user = await this.userModel.findOne({email : input.email})
-
-        // Validate the Data User
-        if (!user || !await bcrypt.compare(input.password, user.password)) {
-            return null;
+    async validateUser(data : CreateUserDto): Promise<UserDocument>{
+        // Validate Password Type
+        if (typeof data.password !== 'string' || !data.password.trim()) {
+            throw new BadRequestException('Invalid Password!')
         }
 
+        // Validate Email Type
+        if (typeof data.email !== 'string' || !data.email.trim()) {
+            throw new BadRequestException('Invalid Email!')
+        }
+
+        // Search for the Data User
+        const user = await this.userModel.findOne({email : data.email})
+
+        // Validate the Data User
+        if (!user || !await bcrypt.compare(data.password, user.password)) {
+            throw new UnauthorizedException('Invalid Credentials');
+        }
+
+        // const {password, ...result} = user;
         return user;
     }
 

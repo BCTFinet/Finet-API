@@ -1,30 +1,32 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard, LocalAuthGuard } from './auth.guard';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 // Controller is handling input request and outputs request back (routes)
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private readonly authService: AuthService) {}
 
+    // Routes : /auth/register
     @Post('register')
-    async register(@Body() body: {email : string, password: string}) {
-        const user = await this.authService.register(body.email, body.password);
-
-        if (!user){
-            return {message : "Failed to Create Account!"}
-        }
-
+    async register(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+        // Register User
+        const user = await this.authService.register(createUserDto);
         return {message : "Succesfully Created an Account!", user}
     }
-
+    
+    // Routes : /auth/login
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Req() req){
-        return await this.authService.login(req.user);
+        // Generate JWT Token
+        const token = await this.authService.login(req.user);
+        return {message : "Succesfully Logged In!", token}
     }
-
+    
+    // Routes : /auth/logout
     @UseGuards(JwtAuthGuard)
     @Post('logout')
     async logout (@Req() req) {
