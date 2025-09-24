@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Category, CategoryDocument } from 'src/schema/category.schema';
@@ -12,7 +12,7 @@ export class CategoryService {
     private categoryModel : Model<CategoryDocument>
   ){}
 
-  async create(categoryDto: CreateCategoryDto) {
+  async create(categoryDto: CreateCategoryDto) : Promise<CategoryDocument> {
     try {
       return await this.categoryModel.create({
         name: categoryDto.title,
@@ -23,7 +23,7 @@ export class CategoryService {
     }
   }
 
-  async findAll() : Promise<CategoryDocument[]> {
+  async findAll() : Promise<CategoryDocument[] | null> {
     try{
       return await this.categoryModel.find().exec();
     }
@@ -32,7 +32,7 @@ export class CategoryService {
     }
   }
   
-  async findOne(_id: Types.ObjectId) {
+  async findOne(_id: Types.ObjectId) : Promise<CategoryDocument | null> {
     try {
       return await this.categoryModel.findById({_id}).exec();
     } catch (error) {
@@ -40,21 +40,33 @@ export class CategoryService {
     }
   }
 
-  async update(_id: Types.ObjectId, categoryDto: UpdateCategoryDto) {
+  async update(_id: Types.ObjectId, categoryDto: UpdateCategoryDto) : Promise<CategoryDocument> {
     try {
-      return await this.categoryModel.findOneAndUpdate(
+      const category = await this.categoryModel.findOneAndUpdate(
         { _id },
         { title : categoryDto.title },
         { new : true }
       );
+
+      if (!category) {
+        throw new NotFoundException('Category Not Found');
+      }
+
+      return category;
     } catch (error) {
       throw new InternalServerErrorException('Something went wrong');
     }
   }
 
-  async remove(_id: Types.ObjectId) {
+  async remove(_id: Types.ObjectId) : Promise<CategoryDocument> {
     try {
-      return await this.categoryModel.findByIdAndDelete({ _id })     
+      const category =  await this.categoryModel.findByIdAndDelete({ _id });
+      
+      if (!category) {
+        throw new NotFoundException('Category Not Found');
+      }
+
+      return category;
     } catch (error) {
       throw new InternalServerErrorException('Something went wrong');
     }

@@ -4,6 +4,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Types } from 'mongoose';
+import { CategoryDocument } from 'src/schema/category.schema';
 
 @Controller('category')
 export class CategoryController {
@@ -11,7 +12,7 @@ export class CategoryController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createCategoryDto: CreateCategoryDto) {
+  async create(@Body() createCategoryDto: CreateCategoryDto) : Promise<{message : string, category : CategoryDocument}>{
     const category =  await this.categoryService.create(createCategoryDto);
     
     return {
@@ -22,19 +23,29 @@ export class CategoryController {
   
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll() {
-    return await this.categoryService.findAll();
+  async findAll() : Promise<{message : string, categories : CategoryDocument[] | null}>{
+    const categories = await this.categoryService.findAll();
+
+    return {
+      message : "Succesfully Fetched All Categories",
+      categories
+    }
   }
   
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param('id') id: Types.ObjectId) {
-    return await this.categoryService.findOne(id);
+  async findOne(@Param('id') id: Types.ObjectId) : Promise<{message : string, category : CategoryDocument | null}>{
+    const category = await this.categoryService.findOne(id);
+
+    return {
+      message : "Succesfully Fetched One Category",
+      category
+    };
   }
   
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async update(@Param('id') id: Types.ObjectId, @Body() updateCategoryDto: UpdateCategoryDto) {
+  async update(@Param('id') id: Types.ObjectId, @Body() updateCategoryDto: UpdateCategoryDto) : Promise<{message : string, category : CategoryDocument}>{
     const category =  await this.categoryService.update(id, updateCategoryDto);
 
     return {
@@ -45,10 +56,11 @@ export class CategoryController {
   
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: Types.ObjectId) {
-    const category = await this.categoryService.remove(id);
+  async remove(@Param('id') id: Types.ObjectId) : Promise<{message : string}> {
+    await this.categoryService.remove(id);
+    
     return {
-      message: 'Successfully deleted expense!',
+      message: 'Successfully deleted category!',
     };
   }
 }

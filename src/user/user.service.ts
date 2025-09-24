@@ -13,7 +13,7 @@ export class UserService {
   ){}
 
   // Get all Users
-  async findAll() : Promise<User[] | null> {
+  async findAll() : Promise<UserDocument[] | null> {
     try {
       return await this.userModel.find();
     }
@@ -23,7 +23,7 @@ export class UserService {
   }
   
   // Get one details of the user
-  async findOne(_id: Types.ObjectId) : Promise<User>{
+  async findOne(_id: Types.ObjectId) : Promise<UserDocument>{
     try{
       const user =  await this.userModel.findOne({_id});
 
@@ -39,7 +39,7 @@ export class UserService {
   }
 
   // Create new Users
-  async create(createUserDto: CreateUserDto) : Promise<User> {
+  async create(createUserDto: CreateUserDto) : Promise<UserDocument> {
     try {
       return this.userModel.create({
         email : createUserDto.email,
@@ -51,7 +51,7 @@ export class UserService {
   }
 
   // Update User Profile
-  async update(_id: Types.ObjectId, updateUserDto: UpdateUserDto) : Promise<User> {
+  async update(_id: Types.ObjectId, updateUserDto: UpdateUserDto) : Promise<UserDocument> {
     try {
       const user = await this.userModel.findOneAndUpdate(
         {_id},
@@ -74,7 +74,7 @@ export class UserService {
   }
 
   // Delete User Profile
-  async remove(_id: Types.ObjectId) : Promise<User> {
+  async remove(_id: Types.ObjectId) : Promise<UserDocument> {
     try {
         const user = await this.userModel.findOneAndDelete({_id});
 
