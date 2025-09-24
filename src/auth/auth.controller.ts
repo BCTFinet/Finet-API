@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard, LocalAuthGuard } from './auth.guard';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -24,6 +24,14 @@ export class AuthController {
         // Generate JWT Token
         const token = await this.authService.login(req.user);
         return {message : "Succesfully Logged In!", token}
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('profile')
+    async getProfile(@Req() req) {
+        // Get User Profile
+        const profile = await this.authService.getProfile(req.user.userId);
+        return {message : "Succesfully Fetched User Profile!", profile}
     }
     
     // Routes : /auth/logout

@@ -13,6 +13,9 @@ export class Expense {
 
     @Prop({required: true})
     price : number;
+
+    @Prop()
+    note : string;
 }
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);

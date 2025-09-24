@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Types } from 'mongoose';
+// import { CreateUserDto } from './dto/create-user.dto';
+// import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { UserDocument } from 'src/schema/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
-  @Get()
+  @Get('/all_user')
   async findAll() : Promise<{message : string, users : UserDocument[] | null}>{
     /*
       Asynchornous handles Find All Users Service
@@ -28,46 +28,27 @@ export class UserController {
       users
     }
   }
-  
-  @Get(':id')
-  async findOne(@Param('id') id: Types.ObjectId) : Promise<{message : string, user : UserDocument}>{
-    /*
-      Asynchornous handles Find One User Service
-
-      Args:
-        id (Types.ObjectId) : User's unique identifier
-
-      Returns:
-        Promise<message : string, user : User>
-    */
-    const user = await this.userService.findOne(id);
-    return {
-      message : "Succesfully Fetched One User",
-      user
-    }
-  }
 
   // ===========================================JWT AUTH===================================================
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) : Promise<{message : string, user : UserDocument}>{
-    /*
-      Asynchornous handles Create User Service 
+  // @UseGuards(JwtAuthGuard)
+  // @Post()
+  // async create(@Body() createUserDto: CreateUserDto) : Promise<{message : string, user : UserDocument}>{
+  //   /*
+  //     Asynchornous handles Create User Service 
 
-      Args:
-        createUserDto (CreateUserDto) : Data Type Object for creating a user (email, password)
+  //     Args:
+  //       createUserDto (CreateUserDto) : Data Type Object for creating a user (email, password)
 
-      Returns:
-        Promise<message : string, user : User>
-    */
+  //     Returns:
+  //       Promise<message : string, user : User>
+  //   */
    
-   const user = await this.userService.create(createUserDto);
-   return {
-      message : "Succesfully Created User",
-      user
-    }
-  }
-  
+  //  const user = await this.userService.create(createUserDto);
+  //  return {
+  //     message : "Succesfully Created User",
+  //     user
+  //   }
+  // }
   
   @UseGuards(JwtAuthGuard)
   @Patch()

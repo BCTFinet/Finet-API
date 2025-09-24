@@ -1,6 +1,7 @@
+import { Optional } from "@nestjs/common";
 import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
-export class ExpenseDto {
+export class CreateExpenseDto {
     @IsString()
     @IsNotEmpty()
     name : string;
@@ -8,4 +9,8 @@ export class ExpenseDto {
     @IsInt()
     @IsNotEmpty()
     price : number;
+
+    @IsString()
+    @Optional()
+    note : string;
 }

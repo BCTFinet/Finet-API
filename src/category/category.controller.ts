@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ValidationPipe } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
@@ -11,20 +11,9 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post()
-  async create(@Body() createCategoryDto: CreateCategoryDto) : Promise<{message : string, category : CategoryDocument}>{
-    const category =  await this.categoryService.create(createCategoryDto);
-    
-    return {
-      message : "Succesfully Created Category",
-      category
-    }
-  }
-  
-  @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll() : Promise<{message : string, categories : CategoryDocument[] | null}>{
-    const categories = await this.categoryService.findAll();
+  async findAll(@Req() req) : Promise<{message : string, categories : CategoryDocument[] | null}>{
+    const categories = await this.categoryService.findAll(req.user.userId);
 
     return {
       message : "Succesfully Fetched All Categories",
@@ -34,19 +23,30 @@ export class CategoryController {
   
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param('id') id: Types.ObjectId) : Promise<{message : string, category : CategoryDocument | null}>{
-    const category = await this.categoryService.findOne(id);
+  async findOne(@Param('id') id: Types.ObjectId, @Req() req) : Promise<{message : string, category : CategoryDocument | null}>{
+    const category = await this.categoryService.findOne(id, req.user.userId);
 
     return {
       message : "Succesfully Fetched One Category",
       category
     };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async create(@Body(new ValidationPipe()) createCategoryDto: CreateCategoryDto, @Req() req) : Promise<{message : string, category : CategoryDocument}>{
+    const category =  await this.categoryService.create(createCategoryDto, req.user.userId);
+    
+    return {
+      message : "Succesfully Created Category",
+      category
+    }
+  }
   
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async update(@Param('id') id: Types.ObjectId, @Body() updateCategoryDto: UpdateCategoryDto) : Promise<{message : string, category : CategoryDocument}>{
-    const category =  await this.categoryService.update(id, updateCategoryDto);
+  async update(@Param('id') id: Types.ObjectId, @Body() updateCategoryDto: UpdateCategoryDto, @Req() req) : Promise<{message : string, category : CategoryDocument}>{
+    const category =  await this.categoryService.update(id, updateCategoryDto, req.user.userId);
 
     return {
       message : "Succesfully Update Category",
@@ -56,8 +56,8 @@ export class CategoryController {
   
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: Types.ObjectId) : Promise<{message : string}> {
-    await this.categoryService.remove(id);
+  async remove(@Param('id') id: Types.ObjectId, @Req() req) : Promise<{message : string}> {
+    await this.categoryService.remove(id, req.user.userId);
     
     return {
       message: 'Successfully deleted category!',

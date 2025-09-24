@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ExpenseModule } from './expense/expense.module';
 import { CategoryModule } from './category/category.module';
 import { UserModule } from './user/user.module';
+import { WalletModule } from './wallet/wallet.module';
+import { ArticleModule } from './article/article.module';
 import configuration from 'config/configuration';
 
 @Module({
@@ -19,7 +21,9 @@ import configuration from 'config/configuration';
     AuthModule,
     ExpenseModule,
     CategoryModule,
-    UserModule
+    UserModule,
+    WalletModule,
+    ArticleModule
   ],
   controllers: [AppController],
   providers: [AppService],

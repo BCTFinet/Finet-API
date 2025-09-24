@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schema/user.schema';
 import { Model } from 'mongoose';
@@ -27,16 +27,21 @@ export class AuthService {
                 throw new ConflictException('Email already exists');
             }
 
-            throw new InternalServerErrorException('Something went wrong');
+            throw new InternalServerErrorException(error.message);
         }
     }
 
     async login(user : any){
-        const payload = {email : user.email, sub: user._id}
-        return await this.jwtService.signAsync(payload)
+        try{
+            const payload = {email : user.email, sub: user._id}
+            return await this.jwtService.signAsync(payload)
+        }
+        catch (error){
+            throw new InternalServerErrorException(error.message);
+        }
     }
 
-    async validateUser(data : CreateUserDto): Promise<UserDocument>{
+    async validateUser(data : {email : string, password: string}): Promise<UserDocument>{
         // Validate Password Type
         if (typeof data.password !== 'string' || !data.password.trim()) {
             throw new BadRequestException('Invalid Password!')
@@ -47,19 +52,41 @@ export class AuthService {
             throw new BadRequestException('Invalid Email!')
         }
 
-        // Search for the Data User
-        const user = await this.userModel.findOne({email : data.email})
+        try{
+            // Search for the Data User
+            const user = await this.userModel.findOne({email : data.email})
 
-        // Validate the Data User
-        if (!user || !await bcrypt.compare(data.password, user.password)) {
-            throw new UnauthorizedException('Invalid Credentials');
+            // Validate the Data User
+            if (!user || !await bcrypt.compare(data.password, user.password)) {
+                throw new UnauthorizedException('Invalid Credentials');
+            }
+
+            // const {password, ...result} = user;
+            return user;
+        }
+        catch (error){
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
+
+    async getProfile(userId : string) : Promise<UserDocument>{
+        try{
+            const user = await this.userModel.findById(userId).select('-password');
+            
+            if (!user) {
+                throw new NotFoundException('User not found');
+            }
+    
+            return user;
         }
 
-        // const {password, ...result} = user;
-        return user;
+        catch (error){
+            throw new InternalServerErrorException(error.message);
+        }
     }
 
     async logout(token : string) : Promise<any>{
-        return {message : 'Succesffuly Logged Out'}
+        return {message : 'Successfully Logged Out'}
     }
 }

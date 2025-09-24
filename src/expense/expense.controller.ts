@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UnauthorizedException, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ExpenseService } from './expense.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
-import { ExpenseDto } from './dto/expense.dto';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Types } from 'mongoose';
-import { Expense, ExpenseDocument } from 'src/schema/expense.schema';
+import { ExpenseDocument } from 'src/schema/expense.schema';
 
 @Controller('expense')
 export class ExpenseController {
@@ -24,7 +25,7 @@ export class ExpenseController {
     //  ROUTES : /expense
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createExpense(@Body(new ValidationPipe()) body : ExpenseDto, @Req() req) : Promise<{message : string, data : ExpenseDocument}> {
+    async createExpense(@Body(new ValidationPipe()) body : CreateExpenseDto, @Req() req) : Promise<{message : string, data : ExpenseDocument}> {
         const expense = await this.expenseService.addExpense(body, req.user.userId);
         
         return {
@@ -36,7 +37,7 @@ export class ExpenseController {
     //  ROUTES : /expense/:id
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
-    async update(@Param('id') expense_id : Types.ObjectId, @Req() req, @Body() body : ExpenseDto) : Promise<{message : string, data : ExpenseDocument}> {
+    async update(@Param('id') expense_id : Types.ObjectId, @Req() req, @Body() body : UpdateExpenseDto) : Promise<{message : string, data : ExpenseDocument}> {
         const updatedExpense = await this.expenseService.updateExpense(body, req.user.userId, expense_id);
         
         return {

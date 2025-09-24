@@ -18,37 +18,21 @@ export class UserService {
       return await this.userModel.find();
     }
     catch (error) {
-      throw new InternalServerErrorException('Something went wrong!')
-    }
-  }
-  
-  // Get one details of the user
-  async findOne(_id: Types.ObjectId) : Promise<UserDocument>{
-    try{
-      const user =  await this.userModel.findOne({_id});
-
-      if (!user) {
-        throw new NotFoundException('User Not Found');
-      }
-
-      return user;
-    }
-    catch (error){
-      throw new InternalServerErrorException('Someting went wrong!')
+      throw new InternalServerErrorException(error.message);
     }
   }
 
   // Create new Users
-  async create(createUserDto: CreateUserDto) : Promise<UserDocument> {
-    try {
-      return this.userModel.create({
-        email : createUserDto.email,
-        password : createUserDto.password
-      })
-    } catch (error) {
-      throw new InternalServerErrorException('Someting went wrong!')
-    }
-  }
+  // async create(createUserDto: CreateUserDto) : Promise<UserDocument> {
+  //   try {
+  //     return this.userModel.create({
+  //       email : createUserDto.email,
+  //       password : createUserDto.password
+  //     })
+  //   } catch (error) {
+  //     throw new InternalServerErrorException('Someting went wrong!')
+  //   }
+  // }
 
   // Update User Profile
   async update(_id: Types.ObjectId, updateUserDto: UpdateUserDto) : Promise<UserDocument> {
@@ -57,7 +41,9 @@ export class UserService {
         {_id},
         {
           email : updateUserDto.email,
-          password : updateUserDto.password
+          username : updateUserDto.username,
+          phone_number : updateUserDto.phone_number,
+          dob : updateUserDto.dob
         },
         {new : true}
       )
@@ -69,7 +55,7 @@ export class UserService {
       return user;
 
     } catch (error) {
-      throw new InternalServerErrorException('Something Went Wrong');
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -84,7 +70,7 @@ export class UserService {
 
         return user;
     } catch (error) {
-      throw new InternalServerErrorException('Something Went Wrong');
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

@@ -12,39 +12,42 @@ export class CategoryService {
     private categoryModel : Model<CategoryDocument>
   ){}
 
-  async create(categoryDto: CreateCategoryDto) : Promise<CategoryDocument> {
-    try {
+  async create(categoryDto: CreateCategoryDto, user_id : string) : Promise<CategoryDocument> {
+    try{
       return await this.categoryModel.create({
-        name: categoryDto.title,
+        name: categoryDto.name,
+        user_id
       });
     }
-    catch (error) {
-      throw new InternalServerErrorException('Something went wrong');
-    }
+    catch(error){
+      throw new InternalServerErrorException(error.message);
+   } 
   }
 
-  async findAll() : Promise<CategoryDocument[] | null> {
-    try{
-      return await this.categoryModel.find().exec();
-    }
-    catch (error) {
-      throw new InternalServerErrorException('Something went wrong');
-    }
+  async findAll(user_id: Types.ObjectId) : Promise<CategoryDocument[] | null> {
+    return await this.categoryModel.find({user_id}).exec();
   }
   
-  async findOne(_id: Types.ObjectId) : Promise<CategoryDocument | null> {
-    try {
-      return await this.categoryModel.findById({_id}).exec();
-    } catch (error) {
-      throw new InternalServerErrorException('Something went wrong');
+  async findOne(_id: Types.ObjectId, user_id : Types.ObjectId) : Promise<CategoryDocument> {
+    try{
+      const category = await this.categoryModel.findOne({_id, user_id}).exec();
+  
+      if (!category) {
+        throw new NotFoundException('Category Not Found');
+      }
+  
+      return category;
+    }
+    catch(error){
+      throw new InternalServerErrorException(error.message);
     }
   }
 
-  async update(_id: Types.ObjectId, categoryDto: UpdateCategoryDto) : Promise<CategoryDocument> {
-    try {
+  async update(_id: Types.ObjectId, categoryDto: UpdateCategoryDto, user_id : Types.ObjectId) : Promise<CategoryDocument> {
+    try{
       const category = await this.categoryModel.findOneAndUpdate(
-        { _id },
-        { title : categoryDto.title },
+        { _id, user_id },
+        { name : categoryDto.name },
         { new : true }
       );
 
@@ -53,22 +56,24 @@ export class CategoryService {
       }
 
       return category;
-    } catch (error) {
-      throw new InternalServerErrorException('Something went wrong');
+    } 
+    catch(error){
+      throw new InternalServerErrorException(error.message);
     }
   }
 
-  async remove(_id: Types.ObjectId) : Promise<CategoryDocument> {
-    try {
-      const category =  await this.categoryModel.findByIdAndDelete({ _id });
-      
+  async remove(_id: Types.ObjectId, user_id : Types.ObjectId) : Promise<CategoryDocument> {
+    try{
+      const category =  await this.categoryModel.findOneAndDelete({ _id, user_id });
+
       if (!category) {
         throw new NotFoundException('Category Not Found');
       }
 
       return category;
-    } catch (error) {
-      throw new InternalServerErrorException('Something went wrong');
+    }
+    catch(error){
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

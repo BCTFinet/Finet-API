@@ -2,7 +2,8 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Expense, ExpenseDocument } from 'src/schema/expense.schema';
-import { ExpenseDto } from './dto/expense.dto';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 
 @Injectable()
 export class ExpenseService {
@@ -13,34 +14,31 @@ export class ExpenseService {
 
     // Get All Expense
     async findAll(user_id : Types.ObjectId) : Promise<ExpenseDocument[] | null> {
-        try {
-            return this.expenseModel.find({user_id}).exec();
-        }
-        catch (error) {
-            throw new InternalServerErrorException('Something went wrong');
-        }
+        return this.expenseModel.find({user_id}).exec();
     }
 s
     // Create Expense
-    async addExpense(input : ExpenseDto, user_id : string) : Promise<ExpenseDocument> {
-        try {
+    async addExpense(input : CreateExpenseDto, user_id : string) : Promise<ExpenseDocument> {
+        try{
             return await this.expenseModel.create({
+                user_id,
                 name : input.name, 
                 price : input.price,
-                user_id : new Types.ObjectId(user_id)
+                note : input.note
             });
         }
-        catch (error) {
-            throw new InternalServerErrorException('Something went wrong');
+
+        catch(error){
+            throw new InternalServerErrorException(error.message);
         }
     }
     
     // Update Expense
-    async updateExpense(input : ExpenseDto, user_id : Types.ObjectId, expense_id : Types.ObjectId) : Promise<ExpenseDocument> {
-        try {
+    async updateExpense(input : UpdateExpenseDto, user_id : Types.ObjectId, expense_id : Types.ObjectId) : Promise<ExpenseDocument> {
+        try{
             const expense =  await this.expenseModel.findOneAndUpdate(
                 { _id : expense_id, user_id },
-                { name : input.name, price : input.price},
+                { name : input.name, price : input.price, note : input.note},
                 { new : true }
             );
 
@@ -50,14 +48,15 @@ s
 
             return expense;
         }
-        catch (error) {
-            throw new InternalServerErrorException('Something went wrong');
+
+        catch(error){
+            throw new InternalServerErrorException(error.message);
         }
     }
     
     // Delete Expense
     async deleteExpense(user_id: Types.ObjectId, expense_id : Types.ObjectId) : Promise<ExpenseDocument> {
-        try {
+        try{
             const user =  await this.expenseModel.findOneAndDelete({_id : expense_id, user_id})
 
             if (!user) {
@@ -65,9 +64,9 @@ s
             }
 
             return user;
-
-        } catch (error) {
-            throw new InternalServerErrorException('Something went wrong');
+        }
+        catch(error){
+            throw new InternalServerErrorException(error.message);
         }
     }
 }
