@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ExpenseModule } from './expense/expense.module';
+import { CategoryModule } from './category/category.module';
+import { UserModule } from './user/user.module';
 import configuration from 'config/configuration';
 
 @Module({
@@ -15,7 +17,9 @@ import configuration from 'config/configuration';
             }),
     MongooseModule.forRoot('mongodb://localhost:27017/finnet'),
     AuthModule,
-    ExpenseModule
+    ExpenseModule,
+    CategoryModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
