@@ -1,5 +1,4 @@
-import { Optional } from "@nestjs/common";
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateExpenseDto {
     @IsString()
@@ -11,6 +10,6 @@ export class CreateExpenseDto {
     price : number;
 
     @IsString()
-    @Optional()
+    @IsOptional()
     note : string;
 }
