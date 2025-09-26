@@ -11,9 +11,17 @@ export class User {
     @Prop({required : true})
     password: string; 
     
+    @Prop({default : null})
     username: string;
+    
+    @Prop({default : null})
     phone_number: number;
+    
+    @Prop({default : null})
     dob: Date;
+    
+    @Prop({default : null})
+    profile_image: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

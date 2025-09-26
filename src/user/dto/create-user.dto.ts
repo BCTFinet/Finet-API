@@ -21,4 +21,8 @@ export class CreateUserDto {
     @IsOptional()
     @IsDate()
     dob: Date;
+
+    @IsOptional()
+    @IsString()
+    profile_image: string;
 }

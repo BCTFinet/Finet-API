@@ -9,6 +9,7 @@ import { CategoryModule } from './category/category.module';
 import { UserModule } from './user/user.module';
 import { WalletModule } from './wallet/wallet.module';
 import { ArticleModule } from './article/article.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import configuration from 'config/configuration';
 
 @Module({
@@ -23,7 +24,8 @@ import configuration from 'config/configuration';
     CategoryModule,
     UserModule,
     WalletModule,
-    ArticleModule
+    ArticleModule,
+    CloudinaryModule
   ],
   controllers: [AppController],
   providers: [AppService],

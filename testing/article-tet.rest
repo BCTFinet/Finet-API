@@ -1,0 +1,27 @@
+### Get all articles
+GET http://localhost:3000/article
+
+### Get a specific article
+GET http://localhost:3000/article
+
+### Create a new article
+POST http://localhost:3000/article
+Content-Type: application/json
+
+{
+    "title": "m-banking",
+    "content": "ini adalah m-banking",
+    "written_date": "7 September 2024",
+    "author": "finnet"  
+}
+
+### Update an existing article by ID
+PATCH http://localhost:3000/article/68d3e2e9820e55beaf85864e
+Content-Type: application/json
+
+{
+    "title": "m-banking updated"
+}
+
+### Delete an existing article by ID
+DELETE http://localhost:3000/article/68d3e2e9820e55beaf85864e

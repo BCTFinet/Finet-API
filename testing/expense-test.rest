@@ -1,0 +1,29 @@
+### Get all expenses (requires authentication)
+GET http://localhost:3000/expense
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDYyZTM2NDliOTBlNDBiZjgzNzM3YSIsImlhdCI6MTc1ODg2NzA4MSwiZXhwIjoxNzU4ODcwNjgxfQ.3SBVzvdkJ6kl121YEaReHiaajvny_4OIqa0gyuX02do
+
+### Create a new expense (requires authentication)
+POST http://localhost:3000/expense
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDYyZTM2NDliOTBlNDBiZjgzNzM3YSIsImlhdCI6MTc1ODg2NzA4MSwiZXhwIjoxNzU4ODcwNjgxfQ.3SBVzvdkJ6kl121YEaReHiaajvny_4OIqa0gyuX02do
+Content-Type: application/json
+
+{
+  "name": "New Expense",
+  "price": 100,
+  "note": "Description of the expense"
+}
+
+### Update an expense (requires authentication) (/expense/:id)
+PATCH http://localhost:3000/expense/68d3d31a62f45f1491b27fc4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4  
+Content-Type: application/json
+
+{
+  "name": "New Expense Updated",
+  "price": 10000,
+  "note": "Description of the expense"
+}
+
+### Delete an expense (requires authentication) (/expense/:id)
+DELETE http://localhost:3000/expense/68d3d31a62f45f1491b27fc4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4  

@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
-import { UserService } from './user.service';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 // import { Types } from 'mongoose';
+// import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { UserDocument } from 'src/schema/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('user')
 export class UserController {
@@ -51,8 +52,9 @@ export class UserController {
   // }
   
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Patch()
-  async update(@Req() req, @Body() updateUserDto: UpdateUserDto) : Promise<{message : string, user : UserDocument}> {
+  async update(@UploadedFile() file : Express.Multer.File, @Req() req, @Body() updateUserDto: UpdateUserDto) : Promise<{message : string, user : UserDocument}> {
     /*
       Asynchornous handles Update User Service 
   
@@ -62,7 +64,7 @@ export class UserController {
       Returns:
         Promise<message : string, user : User>
     */
-   const user = await this.userService.update(req.user.userId, updateUserDto);
+   const user = await this.userService.update(req.user.userId, updateUserDto, file);
 
    return {
       message : "Succesfully Updated User",

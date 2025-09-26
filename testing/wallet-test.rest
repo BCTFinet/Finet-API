@@ -1,0 +1,29 @@
+### Get all wallet (requires authentication)
+GET http://localhost:3000/wallet
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxNTY4MiwiZXhwIjoxNzU4NzE5MjgyfQ.y8tbug6wYifxzlC7ng__h2098xJ8wptZLXreAmdaglk
+
+### Get a specific wallet by ID (requires authentication)
+GET http://localhost:3000/wallet/68d3df42edba8b31269836fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxNTY4MiwiZXhwIjoxNzU4NzE5MjgyfQ.y8tbug6wYifxzlC7ng__h2098xJ8wptZLXreAmdaglk
+
+### Create a new wallet (requires authentication)
+POST http://localhost:3000/wallet
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxNTY4MiwiZXhwIjoxNzU4NzE5MjgyfQ.y8tbug6wYifxzlC7ng__h2098xJ8wptZLXreAmdaglk
+Content-Type: application/json
+
+{
+  "name": "m-banking"
+}
+
+### Update an existing wallet by ID (requires authentication)
+PATCH http://localhost:3000/wallet/68d3df42edba8b31269836fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxNTY4MiwiZXhwIjoxNzU4NzE5MjgyfQ.y8tbug6wYifxzlC7ng__h2098xJ8wptZLXreAmdaglk
+Content-Type: application/json
+
+{
+  "name": "updated"
+}
+
+### Delete an existing wallet by ID (requires authentication)
+DELETE http://localhost:3000/wallet/68d3df42edba8b31269836fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxNTY4MiwiZXhwIjoxNzU4NzE5MjgyfQ.y8tbug6wYifxzlC7ng__h2098xJ8wptZLXreAmdaglk

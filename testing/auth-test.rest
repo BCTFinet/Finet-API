@@ -1,0 +1,27 @@
+# Authentication
+
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{ 
+  "email": "testuser@gmail.com",
+  "password": "123"
+}
+
+### Login an existing user
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser@gmail.com",
+  "password": "123"
+}
+
+### Get user profile (requires authentication)
+GET http://localhost:3000/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4  
+
+### Logout the user (requires authentication)
+POST http://localhost:3000/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4

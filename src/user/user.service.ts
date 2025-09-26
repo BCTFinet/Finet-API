@@ -1,15 +1,17 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+// import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/schema/user.schema';
 import { Model, Types } from 'mongoose';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
-    private userModel : Model<UserDocument>
+    private userModel : Model<UserDocument>,
+    private cloudinaryService : CloudinaryService
   ){}
 
   // Get all Users
@@ -35,7 +37,7 @@ export class UserService {
   // }
 
   // Update User Profile
-  async update(_id: Types.ObjectId, updateUserDto: UpdateUserDto) : Promise<UserDocument> {
+  async update(_id: Types.ObjectId, updateUserDto: UpdateUserDto, file : Express.Multer.File) : Promise<UserDocument> {
     try {
       const user = await this.userModel.findOneAndUpdate(
         {_id},
@@ -50,6 +52,29 @@ export class UserService {
 
       if (!user){
         throw new NotFoundException('User Not Found')
+      }
+
+      if (file) {
+        // Delete old profile image if exists
+        const oldImageUrl = user.profile_image;
+        if (oldImageUrl) {
+          const publicId = oldImageUrl.split('/');
+          const folder = publicId[publicId.length - 2];
+          const imageName = publicId[publicId.length - 1].split('.')[0];
+
+          // With Folder Name
+          const fullPublicId = `${folder}/${imageName}`;
+
+          if (fullPublicId) {
+            await this.cloudinaryService.deleteImage(fullPublicId);
+          }
+          
+        }
+
+        // Upload new profile image
+        const uploadResult = await this.cloudinaryService.uploadImage(file);
+        user.profile_image = uploadResult.secure_url;
+        await user.save();
       }
       
       return user;

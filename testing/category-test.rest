@@ -1,0 +1,29 @@
+### Get all categories (requires authentication)
+GET http://localhost:3000/category
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4
+
+### Get a specific category by ID (requires authentication)
+GET http://localhost:3000/category/68d3d93532d9afb4fac5103e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4
+
+### Create a new category (requires authentication)
+POST http://localhost:3000/category
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4
+Content-Type: application/json
+
+{
+  "name": "Makanan"
+}
+
+### Update an existing category by ID (requires authentication)
+PATCH http://localhost:3000/category/68d3d93532d9afb4fac5103e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4
+Content-Type: application/json
+
+{
+  "name": "Updated Category Name"
+}
+
+### Delete an existing category by ID (requires authentication)
+DELETE http://localhost:3000/category/68d3d93532d9afb4fac5103e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDNjZWYxYjc2NzFlYjlmM2Y2NTZmZSIsImlhdCI6MTc1ODcxMTU0NywiZXhwIjoxNzU4NzE1MTQ3fQ.eFzyYF7TTnDtmpGilsbwChe1UMwlDgG7ObeMkntAtT4
