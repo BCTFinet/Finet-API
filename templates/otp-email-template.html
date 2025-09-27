@@ -1,0 +1,60 @@
+<!-- otp-email-template.html -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Your verification code</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#ffffff;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;">
+      <tr>
+        <td align="center" style="padding:32px 16px;">
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.08);">
+            <!-- Header -->
+            <tr>
+              <td style="background-color:#2ecc71;padding:24px 24px;text-align:center;">
+                <h1 style="margin:0;color:#ffffff;font-size:20px;font-weight:700;">Verify your email</h1>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="background-color:#ffffff;padding:28px 24px;">
+                <p style="margin:0 0 16px 0;color:#333333;font-size:15px;line-height:1.5;">
+                  Hi — thanks for signing up. Use the code below to verify your email address. The code will expire in 5 minutes.
+                </p>
+
+                <!-- OTP block -->
+                <div style="margin:20px 0;padding:18px;border-radius:8px;background-color:#f6fff7;text-align:center;border:1px solid rgba(46,204,113,0.12);">
+                  <p style="margin:0;color:#2f855a;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Your verification code</p>
+                  <div style="margin-top:12px;font-size:28px;font-weight:700;color:#14532d;">
+                    {{OTP_CODE}}
+                  </div>
+                </div>
+
+                <p style="margin:16px 0 0 0;color:#555555;font-size:13px;line-height:1.4;">
+                  If you didn’t request this, you can safely ignore this email — no changes were made to your account.
+                </p>
+
+                <hr style="border:none;border-top:1px solid #eeeeee;margin:20px 0;">
+
+                <p style="margin:0;color:#888888;font-size:12px;">
+                  Need help? Reply to this email or visit our help center.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background-color:#f9fff9;padding:14px 24px;text-align:center;">
+                <small style="color:#6b7280;">&copy; YourApp • Keep this email for your records</small>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

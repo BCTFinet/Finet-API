@@ -10,6 +10,8 @@ import { UserModule } from './user/user.module';
 import { WalletModule } from './wallet/wallet.module';
 import { ArticleModule } from './article/article.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { OtpVerificationModule } from './otp_verification/otp_verification.module';
+import { EmailModule } from './email/email.module';
 import configuration from 'config/configuration';
 
 @Module({
@@ -25,7 +27,9 @@ import configuration from 'config/configuration';
     UserModule,
     WalletModule,
     ArticleModule,
-    CloudinaryModule
+    CloudinaryModule,
+    EmailModule,
+    OtpVerificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -22,6 +22,9 @@ export class User {
     
     @Prop({default : null})
     profile_image: string;
+
+    @Prop({default : false})
+    is_email_verified: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,6 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
-// import { Types } from 'mongoose';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { Controller, Get, Body, Patch, Delete, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { UserDocument } from 'src/schema/user.schema';
@@ -31,25 +29,6 @@ export class UserController {
   }
 
   // ===========================================JWT AUTH===================================================
-  // @UseGuards(JwtAuthGuard)
-  // @Post()
-  // async create(@Body() createUserDto: CreateUserDto) : Promise<{message : string, user : UserDocument}>{
-  //   /*
-  //     Asynchornous handles Create User Service 
-
-  //     Args:
-  //       createUserDto (CreateUserDto) : Data Type Object for creating a user (email, password)
-
-  //     Returns:
-  //       Promise<message : string, user : User>
-  //   */
-   
-  //  const user = await this.userService.create(createUserDto);
-  //  return {
-  //     message : "Succesfully Created User",
-  //     user
-  //   }
-  // }
   
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
