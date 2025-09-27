@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
-import { AuthService } from './password-auth/auth.service';
-import { JwtAuthGuard, LocalAuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { GoogleOAuthGuard } from './guards/google-auth.guard';
+import { JwtAuthGuard, LocalAuthGuard } from './guards/auth.guard';
 
 // Controller is handling input request and outputs request back (routes)
 
@@ -41,5 +42,20 @@ export class AuthController {
         // Get the Token and then split it from the bearer token
         const token = req.headers.authorization?.split(' ')[1];
         return this.authService.logout(token);
+    }
+
+    @Get('google')
+    @UseGuards(GoogleOAuthGuard)
+    async googleAuth() {}
+
+    @Get('google/callback')
+    @UseGuards(GoogleOAuthGuard)
+    async googleAuthRedirect(@Req() req) : Promise<{message : string, token : string}> {
+        const token = await this.authService.googleLogin(req.user);
+        
+        return {
+            message : "Succesfully Logged In with Google!", 
+            token
+        };
     }
 }

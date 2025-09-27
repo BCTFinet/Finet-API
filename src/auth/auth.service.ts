@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schema/user.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -15,6 +15,15 @@ export class AuthService {
         private userModel: Model<UserDocument>,
         private jwtService : JwtService,
     ){}
+
+    async generateJwt(payload : {email : string, sub : Types.ObjectId}) : Promise<string> {
+        try{
+            return this.jwtService.signAsync(payload);
+        }
+        catch(error) {
+            throw new InternalServerErrorException(error.message);
+        }
+    }
 
     async register(data : CreateUserDto) : Promise<UserDocument> {
         try {
@@ -34,7 +43,7 @@ export class AuthService {
     async login(user : any){
         try{
             const payload = {email : user.email, sub: user._id}
-            return await this.jwtService.signAsync(payload)
+            return await this.generateJwt(payload);
         }
         catch (error){
             throw new InternalServerErrorException(error.message);
@@ -88,5 +97,32 @@ export class AuthService {
 
     async logout(token : string) : Promise<any>{
         return {message : 'Successfully Logged Out'}
+    }
+
+    async googleLogin(user : any) : Promise<string> {
+        if (!user) {
+            throw new UnauthorizedException('No user from Google');
+        }
+
+        const userExists = await this.userModel.findOne({email : user.email});
+
+        if(!userExists) {
+            // If the user doesnt exist, create a new user
+            try{
+                const newUser = await this.userModel.create({
+                    email : user.email,
+                    username : user.name,
+                });
+
+                // Generate JWT Token
+                return await this.generateJwt({email : newUser.email, sub : newUser._id});
+            }
+            catch (error) {
+                throw new InternalServerErrorException(error.message);
+            }
+        }
+
+        // If the user exists, generate JWT Token
+        return await this.generateJwt({email : userExists.email, sub : userExists._id});
     }
 }

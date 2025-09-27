@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ValidationPipe } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Types } from 'mongoose';
 import { CategoryDocument } from 'src/schema/category.schema';
