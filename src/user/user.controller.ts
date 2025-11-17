@@ -5,10 +5,19 @@ import { UserDocument } from 'src/schema/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+
+@ApiBearerAuth()
+@ApiTags('Users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiOkResponse({
+    description: 'Successfully fetched all users.',
+    isArray: true
+  })
   @Get('/all_user')
   async findAll() : Promise<{message : string, users : UserDocument[] | null}>{
     /*
@@ -30,6 +39,13 @@ export class UserController {
 
   // ===========================================JWT AUTH===================================================
   
+  @ApiOperation({ summary: 'Update user profile information' })
+  @ApiOkResponse({
+    description: 'Successfully updated user profile information.',
+    type: UpdateUserDto
+  })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  @ApiBadRequestResponse({ description: 'Invalid user data' })
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Patch()
@@ -51,6 +67,9 @@ export class UserController {
     }
   }
   
+  @ApiOperation({ summary: 'Delete User' })
+  @ApiOkResponse({ description: 'Successfully deleted user.'})
+  @ApiNotFoundResponse({ description: 'User not found' })
   @UseGuards(JwtAuthGuard)
   @Delete()
   async remove(@Req() req)  : Promise<{message : string}> {

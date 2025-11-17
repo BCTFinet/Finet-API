@@ -20,19 +20,17 @@ export class WalletService {
 
   async findOne(_id: Types.ObjectId, user_id: Types.ObjectId) : Promise<WalletDocument> {
     try {
-
+      const wallet = await this.walletModel.findOne({ _id, user_id });
+  
+      if (!wallet) {
+        throw new NotFoundException('Wallet not found');
+      }
+  
+      return wallet;
     }
     catch (error) {
       throw new InternalServerErrorException(error.message);
     }
-
-    const wallet = await this.walletModel.findOne({ _id, user_id });
-
-    if (!wallet) {
-      throw new NotFoundException('Wallet not found');
-    }
-
-    return wallet;
   }
 
   async create(createWalletDto: CreateWalletDto, user_id: Types.ObjectId) : Promise<WalletDocument> {

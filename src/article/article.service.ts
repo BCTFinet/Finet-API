@@ -66,12 +66,18 @@ export class ArticleService {
   }
 
   async remove(id: Types.ObjectId) : Promise<ArticleDocument> {
-    const article = await this.articleModel.findByIdAndDelete(id);
+    try{
+      const article = await this.articleModel.findByIdAndDelete(id);
+  
+      if (!article) {
+        throw new NotFoundException('Article not found');
+      }
+  
+      return article;
 
-    if (!article) {
-      throw new NotFoundException('Article not found');
     }
-
-    return article;
+    catch(error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
