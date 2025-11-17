@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import serverlessExpress from '@vendia/serverless-express';
+
+let server;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +22,16 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.init();
+  const express = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: express });
+
+  // await app.listen(process.env.PORT ?? 3000);
 }
+
+export const handler = async (event, context) => {
+  if (!server) server = await bootstrap();
+  return server(event, context);
+};
+
 bootstrap();
