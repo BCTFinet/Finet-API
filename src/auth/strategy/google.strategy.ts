@@ -3,7 +3,6 @@ import { ConfigService } from "@nestjs/config";
 import { AuthGuard, PassportStrategy } from "@nestjs/passport";
 import { Strategy, VerifyCallback } from 'passport-google-oauth2';
 
-
 @Injectable()  
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     constructor(

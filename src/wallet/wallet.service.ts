@@ -3,13 +3,13 @@ import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Wallet, WalletDocument } from 'src/schema/wallet.schema';
+import { Wallet, WalletDocument } from '../schema/wallet.schema';
 
 @Injectable()
 export class WalletService {
   constructor(
     @InjectModel(Wallet.name)
-    private walletModel : Model<Wallet>
+    private walletModel : Model<WalletDocument>
   ) {}
 
   async findAll(user_id : Types.ObjectId) : Promise<WalletDocument[] | null> {

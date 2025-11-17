@@ -3,11 +3,11 @@ import path from 'path/win32';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { randomInt } from 'crypto';
-import { User } from 'src/schema/user.schema';
+import { User } from '../schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { EmailService } from 'src/email/email.service';
+import { EmailService } from '../email/email.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { OtpVerification, OtpVerificationDocument } from 'src/schema/otp_verification.schema';
+import { OtpVerification, OtpVerificationDocument } from '../schema/otp_verification.schema';
 
 @Injectable()
 export class OtpVerificationService {

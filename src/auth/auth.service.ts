@@ -4,7 +4,7 @@ import { User, UserDocument } from '../schema/user.schema';
 import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 // Service is where it handles the logic side 
 // Throw every error at the service file 

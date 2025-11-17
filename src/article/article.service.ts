@@ -3,7 +3,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Article, ArticleDocument } from 'src/schema/article.schema';
+import { Article, ArticleDocument } from '../schema/article.schema';
 
 @Injectable()
 export class ArticleService {

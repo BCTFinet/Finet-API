@@ -3,7 +3,7 @@ import { WalletService } from './wallet.service';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
 import { JwtAuthGuard } from '../auth/guards/auth.guard';
-import { WalletDocument } from 'src/schema/wallet.schema';
+import { WalletDocument } from '../schema/wallet.schema';
 import { Types } from 'mongoose';
 
 import { ApiBearerAuth, ApiOkResponse, ApiTags, ApiOperation, ApiCreatedResponse, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';

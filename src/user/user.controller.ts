@@ -1,7 +1,7 @@
 import { Controller, Get, Body, Patch, Delete, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guards/auth.guard';
-import { UserDocument } from 'src/schema/user.schema';
+import { UserDocument } from '../schema/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 

@@ -12,7 +12,7 @@ import { ArticleModule } from './article/article.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { OtpVerificationModule } from './otp_verification/otp_verification.module';
 import { EmailModule } from './email/email.module';
-import configuration from 'config/configuration';
+// import configuration from 'config/configuration';
 
 @Module({
   imports: [

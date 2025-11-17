@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Types } from 'mongoose';
-import { ExpenseDocument } from 'src/schema/expense.schema';
+import { ExpenseDocument } from '../schema/expense.schema';
 
 import { ApiBearerAuth, ApiOkResponse, ApiTags, ApiOperation, ApiCreatedResponse, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 
