@@ -33,5 +33,3 @@ export const handler = async (event, context) => {
   if (!server) server = await bootstrap();
   return server(event, context);
 };
-
-bootstrap();
