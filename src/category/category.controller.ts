@@ -4,7 +4,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Types } from 'mongoose';
-import { CategoryDocument } from 'src/schema/category.schema';
+import { CategoryDocument } from '../schema/category.schema';
 
 import { ApiTags, ApiOkResponse, ApiOperation, ApiNotFoundResponse, ApiCreatedResponse, ApiBadRequestResponse, ApiBearerAuth } from '@nestjs/swagger';
 
