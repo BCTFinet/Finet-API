@@ -13,7 +13,7 @@ export class EmailService {
             secure : false,
             auth : {
                 user : this.configService.get<string>('EMAIL_USER'),
-                pass : this.configService.get<string>('EMAIL_PASSSWORD'),
+                pass : this.configService.get<string>('EMAIL_PASSWORD'),
             }
         });
 
