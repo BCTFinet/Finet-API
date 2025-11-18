@@ -2,13 +2,13 @@ import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from "cla
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateUserDto {
-    @ApiProperty({ example: 'user@example.com', description: 'The email of the user' })
+    @ApiProperty({ example: 'user@example.com', description: 'The email of the user', required: true })
     @IsString()
     @IsEmail()
     @IsNotEmpty()
     email : string;
     
-    @ApiProperty({ example: 'strongPassword123', description: 'The password of the user' })
+    @ApiProperty({ example: 'strongPassword123', description: 'The password of the user', required: true })
     @IsString()
     @IsNotEmpty()
     password : string;

@@ -16,4 +16,18 @@ export class CreateExpenseDto {
     @IsString()
     @IsOptional()
     note : string;
+
+    @ApiProperty({ example: '2023-04-01', description: 'Date of the expense' })
+    @IsOptional()
+    date : Date;
+
+    @ApiProperty({ description: 'Category ID associated with the expense' })
+    @IsString()
+    @IsNotEmpty()
+    category_id : string;
+
+    @ApiProperty({ description: 'Wallet ID associated with the expense' })
+    @IsString()
+    @IsNotEmpty()
+    wallet_id : string;
 }

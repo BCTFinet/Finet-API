@@ -10,6 +10,9 @@ export class Wallet {
 
     @Prop({type: Types.ObjectId, ref: "User", required : true})
     user_id : Types.ObjectId;
+
+    @Prop({ default: 0 })
+    balance : number;
 }
 
 export const WalletSchema = SchemaFactory.createForClass(Wallet);

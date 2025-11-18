@@ -13,7 +13,7 @@ export class WalletService {
   ) {}
 
   async findAll(user_id : Types.ObjectId) : Promise<WalletDocument[] | null> {
-    const wallets = await this.walletModel.find({ user_id });
+    const wallets = this.walletModel.find({ user_id }).exec();
 
     return wallets;
   }
