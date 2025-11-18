@@ -8,8 +8,8 @@ export class Expense {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     user_id : Types.ObjectId;
 
-    @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
-    category_id : Types.ObjectId;
+    // @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
+    // category_id : Types.ObjectId;
 
     @Prop({ type: Types.ObjectId, ref: 'Wallet', required: true })
     wallet_id : Types.ObjectId;

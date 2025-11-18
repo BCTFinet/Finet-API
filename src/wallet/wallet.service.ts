@@ -33,11 +33,11 @@ export class WalletService {
     }
   }
 
-  async create(createWalletDto: CreateWalletDto, user_id: Types.ObjectId) : Promise<WalletDocument> {
+  async create(createWalletDto: CreateWalletDto, user_id: String) : Promise<WalletDocument> {
     try {
       return this.walletModel.create({
-        name : createWalletDto.name,
-          user_id : new Types.ObjectId(user_id)
+          name : createWalletDto.name,
+          user_id : user_id
         });
     }
     catch (error) {
