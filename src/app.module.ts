@@ -20,7 +20,7 @@ import { EmailModule } from './email/email.module';
               isGlobal: true,
               // load: [configuration],
             }),
-    MongooseModule.forRoot('mongodb://localhost:27017/finnet'),
+    MongooseModule.forRoot(process.env.MONGODB_CONNECTION_URL as string),
     AuthModule,
     ExpenseModule,
     CategoryModule,
