@@ -23,7 +23,9 @@ s
             return await this.expenseModel.create({
                 user_id,
                 name : input.name, 
+                wallet_id : input.wallet_id,
                 price : input.price,
+                date : input.date,
                 note : input.note
             });
         }
