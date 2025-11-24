@@ -14,6 +14,9 @@ export class Expense {
     @Prop({ type: Types.ObjectId, ref: 'Wallet', required: true })
     wallet_id : Types.ObjectId;
 
+    @Prop({ required: true })
+    expense_type : string;
+
     @Prop({ type: Date, default: Date.now })
     date : Date;
 

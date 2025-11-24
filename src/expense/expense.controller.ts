@@ -41,6 +41,7 @@ export class ExpenseController {
     @Post()
     async createExpense(@Body(new ValidationPipe()) body : CreateExpenseDto, @Req() req) : Promise<{message : string, expense : ExpenseDocument}> {
         const expense = await this.expenseService.addExpense(body, req.user.userId);
+        await this.expenseService.updateWalletValue(expense.wallet_id, expense, req.user.userId);
         
         return {
             message : "Succesfully created an expense!",

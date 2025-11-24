@@ -10,5 +10,6 @@ import { Wallet, WalletSchema } from '../schema/wallet.schema';
   ],
   controllers: [WalletController],
   providers: [WalletService],
+  exports: [WalletService, MongooseModule],
 })
 export class WalletModule {}

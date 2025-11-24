@@ -30,4 +30,9 @@ export class CreateExpenseDto {
     @IsString()
     @IsNotEmpty()
     wallet_id : string;
+
+    @ApiProperty({ description: 'Type of the expense (income/expense)' })
+    @IsString()
+    @IsNotEmpty()
+    expense_type : string;
 }
