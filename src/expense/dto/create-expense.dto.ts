@@ -21,10 +21,10 @@ export class CreateExpenseDto {
     @IsOptional()
     date : Date;
 
-    // @ApiProperty({ description: 'Category ID associated with the expense' })
-    // @IsString()
-    // @IsNotEmpty()
-    // category_id : string;
+    @ApiProperty({ description: 'Category ID associated with the expense' })
+    @IsString()
+    @IsNotEmpty()
+    category_id : string;
 
     @ApiProperty({ description: 'Wallet ID associated with the expense' })
     @IsString()

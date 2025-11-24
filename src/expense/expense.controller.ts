@@ -22,12 +22,12 @@ export class ExpenseController {
     })
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findAll(@Req() req)  : Promise<{message : string, data : ExpenseDocument[] | null}> {
+    async findAll(@Req() req)  : Promise<{message : string, expense : ExpenseDocument[] | null}> {
         const expense = await this.expenseService.findAll(req.user.userId);
         
         return {
             message : "Succesfully fetched all expenses!",
-            data : expense,
+            expense : expense,
         };
     }
     
@@ -36,15 +36,15 @@ export class ExpenseController {
         description: 'Successfully created an expense.',
         type: CreateExpenseDto
     })
-    @ApiBadRequestResponse({ description: 'Invalid expense data' })
+    @ApiBadRequestResponse({ description: 'Invalid expense expense' })
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createExpense(@Body(new ValidationPipe()) body : CreateExpenseDto, @Req() req) : Promise<{message : string, data : ExpenseDocument}> {
+    async createExpense(@Body(new ValidationPipe()) body : CreateExpenseDto, @Req() req) : Promise<{message : string, expense : ExpenseDocument}> {
         const expense = await this.expenseService.addExpense(body, req.user.userId);
         
         return {
             message : "Succesfully created an expense!",
-            data : expense,
+            expense : expense,
         };
     }
     
@@ -53,16 +53,16 @@ export class ExpenseController {
         description: 'Successfully updated an expense.',
         type: UpdateExpenseDto
     })
-    @ApiBadRequestResponse({ description: 'Invalid expense data' })
+    @ApiBadRequestResponse({ description: 'Invalid expense expense' })
     @ApiNotFoundResponse({ description: 'Expense not found' })
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
-    async update(@Param('id') expense_id : Types.ObjectId, @Req() req, @Body() body : UpdateExpenseDto) : Promise<{message : string, data : ExpenseDocument}> {
+    async update(@Param('id') expense_id : Types.ObjectId, @Req() req, @Body() body : UpdateExpenseDto) : Promise<{message : string, expense : ExpenseDocument}> {
         const updatedExpense = await this.expenseService.updateExpense(body, req.user.userId, expense_id);
         
         return {
             message: 'Successfully updated an expense!',
-            data: updatedExpense
+            expense: updatedExpense
         };
     }
 
