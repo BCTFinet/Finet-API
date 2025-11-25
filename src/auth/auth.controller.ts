@@ -18,7 +18,7 @@ export class AuthController {
     @ApiConflictResponse({ description: 'Email already exist' })
     @ApiBadRequestResponse({ description: 'Invalid request parameters' })
     @Post('register')
-    async register(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+    async register(@Body(new ValidationPipe({ transform: true })) createUserDto: CreateUserDto) {
         // Register User
         const user = await this.authService.register(createUserDto);
         return {message : "Succesfully Created an Account!", user}
