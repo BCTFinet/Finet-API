@@ -28,6 +28,15 @@ export class AuthService {
     async register(data : CreateUserDto) : Promise<UserDocument> {
         try {
             const hashedPassword = await bcrypt.hash(data.password, 10);
+            if (data.dob) {
+                return await this.userModel.create({ 
+                    email : data.email, 
+                    password: hashedPassword,
+                    dob: data.dob,
+                    username: data.username,
+                    phone_number: data.phone_number
+                });
+            }
             return await this.userModel.create({ email : data.email, password: hashedPassword });
         } 
         catch (error) {
