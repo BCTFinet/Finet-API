@@ -12,6 +12,7 @@ import { ArticleModule } from './article/article.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { OtpVerificationModule } from './otp_verification/otp_verification.module';
 import { EmailModule } from './email/email.module';
+import { QwenModule } from './LLM/qwen.module';
 // import configuration from 'config/configuration';
 
 @Module({
@@ -29,6 +30,7 @@ import { EmailModule } from './email/email.module';
     ArticleModule,
     CloudinaryModule,
     EmailModule,
+    QwenModule,
     OtpVerificationModule
   ],
   controllers: [AppController],
