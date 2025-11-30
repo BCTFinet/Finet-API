@@ -4,12 +4,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Category, CategoryDocument } from '../schema/category.schema';
 import { Model, Types } from 'mongoose';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Expense, ExpenseDocument } from 'src/schema/expense.schema';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectModel(Category.name)
-    private categoryModel : Model<CategoryDocument>
+    private categoryModel : Model<CategoryDocument>,
+    @InjectModel(Expense.name)
+    private expenseModel : Model<ExpenseDocument>
   ){}
 
   async create(categoryDto: CreateCategoryDto, user_id : string) : Promise<CategoryDocument> {
@@ -69,6 +72,8 @@ export class CategoryService {
       if (!category) {
         throw new NotFoundException('Category Not Found');
       }
+
+      await this.expenseModel.deleteMany({ category_id: _id });
 
       return category;
     }
