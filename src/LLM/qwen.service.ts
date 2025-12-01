@@ -3,28 +3,26 @@ import { OpenAI } from 'openai';
 
 @Injectable()
 export class QwenService {
-// prompt = f"""
-// Anda adalah komunikator AI, bukan kalkulator.
-// Model Random Forest (RF) telah menganalisis data dan memprediksi bahwa dibutuhkan **{predicted_days:.2f} hari** untuk mencapai target tabungan.
+    async generateText(goal : number, savings: number, target_date: number, extra_prompt: string): Promise<string> {
+        const prompt = `
+            Anda adalah komunikator AI, bukan kalkulator.
+            Model Random Forest (RF) telah menganalisis data dan memprediksi bahwa dibutuhkan 30 hari untuk mencapai target tabungan di ${target_date}.
 
-// **Data yang Dianalisis:**
-// - Histori tabungan:
-// {history_str}
-// - Tabungan harian terakhir: Rp{net_saving:,}
-// - Total tabungan saat ini: Rp{cumulative_savings:,}
-// - Target: Rp{goal_amount:,}
-// {projection_str}
+            Data yang Dianalisis
+            - Total tabungan saat ini: Rp ${savings}
+            - Target: Rp ${goal}
 
-// **Tugas Anda:**
-// 1. Jelaskan secara logis (tanpa menghitung manual) mengapa model RF dapat menghasilkan prediksi {predicted_days:.2f} hari.
-// 2. Pertimbangkan hal-hal seperti pola non-linear, volatilitas, dan faktor tersembunyi.
-// 3. Setelah menjelaskan secara rinci, buatlah ringkasan pendek (3–5 paragraf) yang merangkum inti penjelasan tersebut dengan bahasa yang mudah dipahami pengguna.
+            **Tugas Anda:**
+            1. Jelaskan secara logis (tanpa menghitung manual) mengapa model RF dapat menghasilkan prediksi 30 hari.
+            2. Pertimbangkan hal-hal seperti pola non-linear, volatilitas, dan faktor tersembunyi.
+            3. Setelah menjelaskan secara rinci, buatlah ringkasan pendek (3-5 paragraf) yang merangkum inti penjelasan tersebut dengan bahasa yang mudah dipahami pengguna.
 
-// Mulailah dengan penjelasan, lalu akhiri dengan bagian berjudul **"Ringkasan Singkat:"**.
-// """
+            Mulailah dengan penjelasan, lalu akhiri dengan bagian berjudul "Ringkasan Singkat".
 
-    async generateText(prompt: string): Promise<string> {
-        console.log(process.env.HF_TOKEN);
+            dan tambahkan instruksi tambahan berikut ke dalam penjelasan Anda:
+            ${extra_prompt}
+        `;
+
         const client = new OpenAI({
             baseURL: "https://router.huggingface.co/v1",
             apiKey: process.env.HF_TOKEN,

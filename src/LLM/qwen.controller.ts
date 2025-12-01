@@ -11,7 +11,7 @@ export class QwenController {
     @ApiOperation({ summary: 'Generate forecast using Qwen model' })
     @Post('forecast')
     async forecast(@Body() body){
-        const forecast = await this.qwenService.generateText(body.prompt);
+        const forecast = await this.qwenService.generateText(body.goal, body.savings, body.target_date, body.extra_prompt);
         
         return {
             message : "Succesfully generated forecast!",
