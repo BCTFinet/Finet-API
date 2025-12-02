@@ -45,7 +45,15 @@ s
         try{
             const expense =  await this.expenseModel.findOneAndUpdate(
                 { _id : expense_id, user_id },
-                { name : input.name, price : input.price, note : input.note},
+                { 
+                    name : input.name, 
+                    price : input.price,
+                    date : input.date,
+                    expense_type : input.expense_type,
+                    note : input.note,
+                    wallet_id : input.wallet_id,
+                    category_id : input.category_id,
+                },
                 { new : true }
             );
 
