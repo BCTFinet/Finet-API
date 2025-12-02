@@ -51,7 +51,8 @@ export class WalletService {
       const wallet = await this.walletModel.findOneAndUpdate(
         { _id : id, user_id },
         {
-          name : updateWalletDto.name
+          name : updateWalletDto.name,
+          balance : updateWalletDto.balance,
         },
         { new : true }
       ); 
