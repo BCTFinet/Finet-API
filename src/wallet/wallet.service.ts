@@ -37,7 +37,7 @@ export class WalletService {
     try {
       return this.walletModel.create({
           name : createWalletDto.name,
-          balancce: createWalletDto.balance,
+          balance: createWalletDto.balance,
           user_id : user_id
         });
     }
